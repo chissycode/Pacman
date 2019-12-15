@@ -755,7 +755,8 @@ def runGames( layout, pacman, ghosts, opponent, display, numGames, record, numTr
 
     rules = ClassicGameRules(timeout)
     games = []
-    winRateList = []
+    training_games = [] #used to plot learning curve
+    winRateList = [] #used to plot learning curve
 
     for i in range( numGames ):
         beQuiet = i < numTraining
@@ -768,13 +769,16 @@ def runGames( layout, pacman, ghosts, opponent, display, numGames, record, numTr
             gameDisplay = display
             rules.quiet = False
         game = rules.newGame( layout, pacman, ghosts, opponent, gameDisplay, beQuiet, catchExceptions)
-        game.run()
-        games.append(game)
+        game.run()        
 
         if beQuiet: #while training
-            pacWins = [game.state.isPacWin() for game in games]
+            training_games.append(game)
+            pacWins = [game.state.isPacWin() for game in training_games]
             pacWinRate = pacWins.count(True)/ float(len(pacWins))
             winRateList.append(pacWinRate)
+            
+        else:
+            games.append(game)
 
         if record:
             import time, cPickle
