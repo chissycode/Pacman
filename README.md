@@ -42,7 +42,7 @@ python pacman.py -n 100 -q
 choose a layout from smallClassic, mediumClassic(default), originalClassic
 
 ```
-python pacman.py -n 100 -q -l smallClassic
+python pacman.py -l smallClassic
 ```
 
 ### Tree Search Model
