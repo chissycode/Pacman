@@ -47,7 +47,7 @@ python pacman.py -l smallClassic
 
 ### Tree Search Model
 
-run multimax tree search model for pacman and ghost, set random model for opponent player
+run multimax tree search model for pacman and ghost, set random model for opponent player(default)
 
 ```
 python pacman.py
