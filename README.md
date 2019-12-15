@@ -34,8 +34,15 @@ Explain how to run tests for the game and how to set trainable parameters
 
 ### Basic Setup
 run games by 100 times and be quiet(don't display realtime game)
+
 ```
 python pacman.py -n 100 -q
+```
+
+choose a layout from smallClassic, mediumClassic(default), originalClassic
+
+```
+python pacman.py -n 100 -q -l smallClassic
 ```
 
 ### Tree Search Model
