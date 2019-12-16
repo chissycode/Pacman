@@ -681,7 +681,11 @@ class Game:
                     self.unmute()
                     return
             else:
+                if agentIndex == 0: nodes_before = agent.getNodeNum()
                 action = agent.getAction(observation)
+                if agentIndex == 0: 
+                    nodes_after = agent.getNodeNum()
+                    self.totalNodes += nodes_after - nodes_before
                 self.unmute()
 
             # Execute the action
@@ -714,8 +718,6 @@ class Game:
 
         # inform a learning agent of the game result
         for agentIndex, agent in enumerate(self.agents):
-            if agentIndex == 0:
-                self.totalNodes = agent.getNodeNum()
             if "final" in dir( agent ) :
                 try:
                     self.mute(agentIndex)

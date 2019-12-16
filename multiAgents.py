@@ -20,10 +20,10 @@ from featureExtractors import *
 
 
 class MultimaxAgent(Agent):
-    def __init__(self, index=0, depth=5, nodeNum=0):
+    def __init__(self, index=0, depth=5):
         self.depth = depth
         self.index = index
-        self.nodeNum = nodeNum
+        self.nodeNum = 0
 
     def getNodeNum(self):
         return self.nodeNum
