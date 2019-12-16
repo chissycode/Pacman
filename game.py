@@ -524,6 +524,7 @@ class Game:
         self.moveHistory = []
         self.totalAgentTimes = [0 for agent in agents]
         self.totalAgentTimeWarnings = [0 for agent in agents]
+        self.totalNodes = 0
         self.agentTimeout = False
         import cStringIO
         self.agentOutput = [cStringIO.StringIO() for agent in agents]
@@ -681,7 +682,7 @@ class Game:
                     return
             else:
                 action = agent.getAction(observation)
-            self.unmute()
+                self.unmute()
 
             # Execute the action
             self.moveHistory.append( (agentIndex, action) )
@@ -713,6 +714,8 @@ class Game:
 
         # inform a learning agent of the game result
         for agentIndex, agent in enumerate(self.agents):
+            if agentIndex == 0:
+                self.totalNodes += agent.getNodeNum()
             if "final" in dir( agent ) :
                 try:
                     self.mute(agentIndex)

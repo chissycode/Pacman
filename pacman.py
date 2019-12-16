@@ -247,6 +247,9 @@ class GameState:
     def isPacWin(self):
         return self.data.scores[0] > self.data.scores[1]
 
+    def isOppWin(self):
+        return self.data.scores[0] < self.data.scores[1]
+
 
     #############################################
     #             Helper methods:               #
@@ -756,7 +759,7 @@ def runGames( layout, pacman, ghosts, opponent, display, numGames, record, numTr
     rules = ClassicGameRules(timeout)
     games = []
     training_games = [] #used to plot learning curve
-    winRateList = [] #used to plot learning curve
+    learningWinRate = [] #used to plot learning curve
 
     for i in range( numGames ):
         beQuiet = i < numTraining
@@ -775,8 +778,7 @@ def runGames( layout, pacman, ghosts, opponent, display, numGames, record, numTr
             training_games.append(game)
             pacWins = [game.state.isPacWin() for game in training_games]
             pacWinRate = pacWins.count(True)/ float(len(pacWins))
-            winRateList.append(pacWinRate)
-            
+            learningWinRate.append(pacWinRate)
         else:
             games.append(game)
 
@@ -792,13 +794,19 @@ def runGames( layout, pacman, ghosts, opponent, display, numGames, record, numTr
         pacScores = [game.state.getScores()[0] for game in games]
         pacWins = [game.state.isPacWin() for game in games]
         pacWinRate = pacWins.count(True)/ float(len(pacWins))
-        print 'Average Score:', sum(pacScores) / float(len(pacScores))
-        print 'Scores:       ', ', '.join([str(score) for score in pacScores])
-        print 'Win Rate:      %d/%d (%.2f)' % (pacWins.count(True), len(pacWins), pacWinRate)
+        oppScores = [game.state.getScores()[1] for game in games]
+        # ghostWins = [game.state.isGhostWin() for game in games]
+        # ghostWinRate = ghostWins.count(True)/ float(len(ghostWins))
+        print 'Pacman Average Score:', sum(pacScores) / float(len(pacScores))
+        print 'Opponent Average Score:', sum(oppScores) / float(len(oppScores))
+        print 'Pacman Win Rate:      %d/%d (%.2f)' % (pacWins.count(True), len(pacWins), pacWinRate)
         print 'Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in pacWins])
+        # print 'Ghost Win Rate:      %d/%d (%.2f)' % (ghostWins.count(True), len(ghostWins), ghostWinRate)
+        # print 'Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in ghostWins])
+        print 'Pacman average Nodes checked:', sum([game.totalNodes for game in games]) / float(len(games))
 
         
-        pt.plot(winRateList)
+        pt.plot(learningWinRate)
 
         pt.ylabel("Win Rate")
         pt.xlabel("Time")

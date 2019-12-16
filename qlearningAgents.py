@@ -16,6 +16,7 @@ from game import *
 from learningAgents import ReinforcementAgent
 from multiAgents import MultimaxAgent
 from featureExtractors import *
+
 import random,util,math
 
 
@@ -173,6 +174,7 @@ class ApproximateQAgent(PacmanQAgent):
         self.featExtractor = util.lookup(extractor, globals())()
         PacmanQAgent.__init__(self, **args)
         self.weights = util.Counter()
+        self.weight = 0
 
     def getWeights(self):
         return self.weights
@@ -182,8 +184,9 @@ class ApproximateQAgent(PacmanQAgent):
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
         """
-        q_value, counter = 0, 0
+        q_value = 0
         features = self.featExtractor.getFeatures(state, action)
+        counter = 0
         for feature in features:
             q_value += features[feature] * self.weights[feature]
             counter += 1
@@ -208,8 +211,4 @@ class ApproximateQAgent(PacmanQAgent):
 
     def final(self, state):
         PacmanQAgent.final(self, state)
-
-
-
-
         

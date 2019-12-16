@@ -20,9 +20,13 @@ from featureExtractors import *
 
 
 class MultimaxAgent(Agent):
-    def __init__(self, index=0, depth=5):
+    def __init__(self, index=0, depth=5, nodeNum=0):
         self.depth = depth
         self.index = index
+        self.nodeNum = nodeNum
+
+    def getNodeNum(self):
+        return self.nodeNum
 
     def getAction(self, gameState):
         # print self.index
@@ -30,6 +34,7 @@ class MultimaxAgent(Agent):
         return bestMultiAction
 
     def multimax(self, currentGameState, agentIndex, dep):
+        self.nodeNum += 1
         legal = currentGameState.getLegalActions(agentIndex)
         if Directions.STOP in legal: legal.remove(Directions.STOP)
 
@@ -49,6 +54,7 @@ class MultimaxAgent(Agent):
         return (currentGameState.getScores(), random.choice(bestActions))
 
 
+
 class GreedyAgent(Agent):
 
     def getAction(self, state):
@@ -63,12 +69,10 @@ class GreedyAgent(Agent):
         return random.choice(bestActions)
 
 class RandomAgent(Agent):
+
     def getAction(self, state):
         dist = self.getDistribution(state)
-        if len(dist) == 0:
-            return Directions.STOP
-        else:
-            return util.chooseFromDistribution( dist )
+        return util.chooseFromDistribution( dist )
 
     def getDistribution( self, state ):
         dist = util.Counter()
