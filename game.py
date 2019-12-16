@@ -715,7 +715,7 @@ class Game:
         # inform a learning agent of the game result
         for agentIndex, agent in enumerate(self.agents):
             if agentIndex == 0:
-                self.totalNodes += agent.getNodeNum()
+                self.totalNodes = agent.getNodeNum()
             if "final" in dir( agent ) :
                 try:
                     self.mute(agentIndex)
